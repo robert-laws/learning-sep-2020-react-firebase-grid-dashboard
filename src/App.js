@@ -1,12 +1,21 @@
 import React from 'react';
 import './App.scss';
 import './firebase/config';
+import { Container } from 'semantic-ui-react';
+import { Signup } from './pages';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className='App'>
-      <h1>App</h1>
-    </div>
+    <Router>
+      <Container>
+        <Switch>
+          <Route exact path='/signup'>
+            <Signup />
+          </Route>
+        </Switch>
+      </Container>
+    </Router>
   );
 }
 
