@@ -1,14 +1,21 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
+import { login } from '../firebase/auth';
+import { useHistory } from 'react-router-dom';
 
 export const Login = () => {
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = (data) => {
+  const history = useHistory();
+
+  const onSubmit = async (data) => {
+    let user;
     try {
-      console.log(data);
+      user = await login(data);
       reset();
+      history.push(`/profile/${user.uid}`);
     } catch (error) {
       console.log(error);
     }
@@ -42,6 +49,14 @@ export const Login = () => {
                 />
               </Form.Group>
               <Button variant='primary' type='submit'>
+                Login
+              </Button>
+              <Button
+                as={Link}
+                variant='secondary'
+                to='/signup'
+                style={{ marginLeft: '10px' }}
+              >
                 Signup
               </Button>
             </Form>

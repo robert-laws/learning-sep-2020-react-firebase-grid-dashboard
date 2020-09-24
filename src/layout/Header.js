@@ -13,7 +13,7 @@ export const Header = () => {
 
   const logoutUser = async () => {
     await logout();
-    history.push('/signup');
+    history.push('/login');
   };
 
   return (
