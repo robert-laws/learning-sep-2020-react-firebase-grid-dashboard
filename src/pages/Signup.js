@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
 import { signup } from '../firebase/auth';
+import { useHistory } from 'react-router-dom';
 
 export const Signup = () => {
   const [user, setUser] = useState({
@@ -11,13 +12,16 @@ export const Signup = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const history = useHistory();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let newUser;
 
     setIsLoading(true);
 
     try {
-      await signup(user);
+      newUser = await signup(user);
       setUser({
         firstName: '',
         lastName: '',
@@ -28,7 +32,11 @@ export const Signup = () => {
       console.log(error);
     }
 
-    setIsLoading(false);
+    if (newUser) {
+      history.push(`/profile/${newUser.uid}`);
+    } else {
+      setIsLoading(false);
+    }
   };
 
   return (
