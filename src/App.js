@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import './firebase/config';
 import { Header } from './layout';
-import { Home, Signup } from './pages';
+import { Home, Signup, Login } from './pages';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
@@ -14,6 +14,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route path='/signup' component={Signup} />
+          <Route path='/login' component={Login} />
         </Switch>
       </Container>
     </Router>

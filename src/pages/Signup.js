@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
+import { signup } from '../firebase/auth';
 
 export const Signup = () => {
   const [user, setUser] = useState({
@@ -8,18 +9,26 @@ export const Signup = () => {
     email: '',
     password: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(user);
+    setIsLoading(true);
 
-    setUser({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    });
+    try {
+      await signup(user);
+      setUser({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -73,8 +82,8 @@ export const Signup = () => {
                   }
                 />
               </Form.Group>
-              <Button variant='primary' type='submit'>
-                Signup
+              <Button variant='primary' type='submit' disabled={isLoading}>
+                {isLoading ? 'Loading…' : 'Signup'}
               </Button>
             </Form>
           </Card.Body>
