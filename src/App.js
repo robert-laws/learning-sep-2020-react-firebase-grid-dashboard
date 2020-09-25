@@ -3,8 +3,15 @@ import './App.scss';
 import './firebase/config';
 import { Header } from './layout';
 import { Home, Signup, Login, Profile } from './pages';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import { Container } from 'react-bootstrap';
+import ProfileRedirect from './router/ProfileRedirect';
+import PrivateRoute from './router/PrivateRoute';
 
 function App() {
   return (
@@ -12,10 +19,12 @@ function App() {
       <Header />
       <Container id='root-container'>
         <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/signup' component={Signup} />
-          <Route path='/login' component={Login} />
-          <Route path='/profile/:id' component={Profile} />
+          <ProfileRedirect exact path='/'>
+            <Redirect to='/login' />
+          </ProfileRedirect>
+          <ProfileRedirect path='/signup' component={Signup} />
+          <ProfileRedirect path='/login' component={Login} />
+          <PrivateRoute path='/profile/:id' component={Profile} />
         </Switch>
       </Container>
     </Router>
