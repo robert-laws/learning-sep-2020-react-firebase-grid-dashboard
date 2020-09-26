@@ -22,6 +22,7 @@ export const Signup = () => {
 
     try {
       newUser = await signup(user);
+
       setUser({
         firstName: '',
         lastName: '',

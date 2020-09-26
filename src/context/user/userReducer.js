@@ -1,4 +1,4 @@
-import { SET_USER } from '../types';
+import { SET_USER, CREATE_USER } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -6,6 +6,12 @@ export default (state, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+
+    case CREATE_USER:
+      return {
+        ...state,
+        userProfile: action.payload,
       };
 
     default:
