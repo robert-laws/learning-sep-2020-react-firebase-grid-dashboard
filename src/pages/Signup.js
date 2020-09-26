@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
-import { signup } from '../firebase/auth';
 import { Link, useHistory } from 'react-router-dom';
+import UserContext from '../context/user/userContext';
 
 export const Signup = () => {
+  const userContext = useContext(UserContext);
+  const { createUser } = userContext;
+
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -16,28 +19,28 @@ export const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let newUser;
+    // let newUser;
 
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    try {
-      newUser = await signup(user);
+    // try {
+    //   newUser = await signup(user);
 
-      setUser({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    //   setUser({
+    //     firstName: '',
+    //     lastName: '',
+    //     email: '',
+    //     password: '',
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
-    if (newUser) {
-      history.push(`/profile/${newUser.uid}`);
-    } else {
-      setIsLoading(false);
-    }
+    // if (newUser) {
+    //   history.push(`/profile/${newUser.uid}`);
+    // } else {
+    //   setIsLoading(false);
+    // }
   };
 
   return (
