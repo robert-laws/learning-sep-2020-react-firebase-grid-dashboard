@@ -53,14 +53,17 @@ export const Header = () => {
         </Nav>
       )}
       {!!user && (
-        <Nav.Link
-          as={Button}
-          onClick={logoutUser}
-          variant='dark'
-          className='justify-content-end'
-        >
-          Logout
-        </Nav.Link>
+        <Nav>
+          <h6 className='welcome-text'>Hello, {user.displayName}</h6>
+          <Nav.Link
+            as={Button}
+            onClick={logoutUser}
+            variant='dark'
+            className='justify-content-end'
+          >
+            Logout
+          </Nav.Link>
+        </Nav>
       )}
     </Navbar>
   );
