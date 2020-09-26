@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
 import { signup } from '../firebase/auth';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 export const Signup = () => {
   const [user, setUser] = useState({
@@ -92,6 +92,14 @@ export const Signup = () => {
               </Form.Group>
               <Button variant='primary' type='submit' disabled={isLoading}>
                 {isLoading ? 'Loading…' : 'Signup'}
+              </Button>
+              <Button
+                as={Link}
+                variant='secondary'
+                to='/login'
+                style={{ marginLeft: '10px' }}
+              >
+                Login
               </Button>
             </Form>
           </Card.Body>

@@ -25,13 +25,27 @@ export const Header = () => {
         <Nav.Link as={NavLink} exact to='/'>
           Home
         </Nav.Link>
-        <Nav.Link as={NavLink} to='/signup'>
-          Signup
-        </Nav.Link>
-        <Nav.Link as={NavLink} to='/login'>
-          Login
-        </Nav.Link>
+        {!!user && (
+          <Nav.Link as={NavLink} exact to={`/profile/${user.uid}`}>
+            Profile
+          </Nav.Link>
+        )}
       </Nav>
+      {!user && (
+        <Nav>
+          <Nav.Link as={NavLink} to='/signup'>
+            Signup
+          </Nav.Link>
+          <Nav.Link
+            as={NavLink}
+            variant='dark'
+            className='justify-content-end'
+            to='/login'
+          >
+            Login
+          </Nav.Link>
+        </Nav>
+      )}
       {!!user && (
         <Nav.Link
           as={Button}

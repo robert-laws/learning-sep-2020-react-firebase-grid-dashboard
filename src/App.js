@@ -19,9 +19,7 @@ function App() {
       <Header />
       <Container id='root-container'>
         <Switch>
-          <ProfileRedirect exact path='/'>
-            <Redirect to='/login' />
-          </ProfileRedirect>
+          <Route exact path='/' component={Home} />
           <ProfileRedirect path='/signup' component={Signup} />
           <ProfileRedirect path='/login' component={Login} />
           <PrivateRoute path='/profile/:id' component={Profile} />

@@ -23,7 +23,11 @@ const UserState = ({ children }) => {
   const addAuthListener = (callback) => {
     const onChange = (user) => {
       if (user) {
-        callback(user);
+        callback({
+          displayName: user.displayName,
+          email: user.email,
+          uid: user.uid,
+        });
       } else {
         callback(null);
       }
