@@ -33,17 +33,23 @@ export const Header = () => {
       </Nav>
       {!user && (
         <Nav>
-          <Nav.Link as={NavLink} to='/signup'>
+          <Button
+            as={NavLink}
+            variant='dark'
+            className='justify-content-end'
+            to='/signup'
+          >
             Signup
-          </Nav.Link>
-          <Nav.Link
+          </Button>
+          <Button
+            style={{ marginLeft: '10px' }}
             as={NavLink}
             variant='dark'
             className='justify-content-end'
             to='/login'
           >
             Login
-          </Nav.Link>
+          </Button>
         </Nav>
       )}
       {!!user && (
