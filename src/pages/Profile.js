@@ -11,7 +11,6 @@ export const Profile = () => {
 
   return (
     <div>
-      <p>Name: {user.displayName}</p>
       <p>Email: {user.email}</p>
       <p>ID: {user.uid}</p>
     </div>
