@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
+import UserContext from '../context/user/userContext';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
-import { login } from '../firebase/auth';
 import { useHistory } from 'react-router-dom';
 
 export const Login = () => {
+  const userContext = useContext(UserContext);
+  const { user, login } = userContext;
+
   const { register, handleSubmit, reset } = useForm();
 
   const history = useHistory();
 
+  useEffect(() => {
+    if (user) {
+      history.push(`/profile/${user}`);
+    }
+  }, [user, history]);
+
   const onSubmit = async (data) => {
-    let user;
     try {
-      user = await login(data);
+      await login(data);
       reset();
-      history.push(`/profile/${user.uid}`);
     } catch (error) {
       console.log(error);
     }

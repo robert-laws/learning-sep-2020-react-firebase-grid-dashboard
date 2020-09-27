@@ -3,7 +3,7 @@ import UserContext from './userContext';
 import userReducer from './userReducer';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { UPDATE_USER_APP_STATE, CREATE_USER, GET_USER_BY_UID } from '../types';
+import { UPDATE_USER_APP_STATE, GET_USER_BY_UID, CLEAR_USER } from '../types';
 
 const UserState = ({ children }) => {
   const initialState = {
@@ -35,26 +35,42 @@ const UserState = ({ children }) => {
     return firebase.auth().onAuthStateChanged(onChange);
   };
 
-  // SIGNUP_USER
-  // export const signup = async ({ email, password }) => {
-  //   const { user } = await firebase
-  //     .auth()
-  //     .createUserWithEmailAndPassword(email, password);
-  //   return user;
-  // };
+  const signup = useCallback(
+    async (email, password) => {
+      try {
+        const { user } = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
 
-  // LOGOUT_USER
-  // export const logout = () => {
-  //   return firebase.auth().signOut();
-  // };
+        const data = { user: user.uid, isLoading: false };
 
-  // LOGIN_USER
-  // export const login = async ({ email, password }) => {
-  //   const { user } = await firebase
-  //     .auth()
-  //     .signInWithEmailAndPassword(email, password);
-  //   return user;
-  // };
+        dispatch({ type: UPDATE_USER_APP_STATE, payload: data });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [dispatch]
+  );
+
+  const createUser = useCallback(async (uid, firstName, lastName, email) => {
+    try {
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(uid)
+        .set({ firstName, lastName, email });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  const logout = () => {
+    return firebase.auth().signOut();
+  };
+
+  const login = async ({ email, password }) => {
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+  };
 
   const getUserByUid = useCallback(
     async (uid) => {
@@ -75,12 +91,22 @@ const UserState = ({ children }) => {
     [dispatch]
   );
 
+  const clearUser = useCallback(() => {
+    dispatch({ type: CLEAR_USER });
+  }, []);
+
   return (
     <UserContext.Provider
       value={{
         user: state.user,
+        userProfile: state.userProfile,
         isLoading: state.isLoading,
+        signup,
+        createUser,
+        login,
         getUserByUid,
+        logout,
+        clearUser,
       }}
     >
       {children}

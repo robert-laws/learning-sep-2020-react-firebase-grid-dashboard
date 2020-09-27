@@ -1,46 +1,49 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import UserContext from '../context/user/userContext';
 
 export const Signup = () => {
   const userContext = useContext(UserContext);
-  const { createUser } = userContext;
+  const { user, signup, createUser } = userContext;
 
-  const [user, setUser] = useState({
+  const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
 
+  useEffect(() => {
+    const addNewUser = async () => {
+      if (user) {
+        try {
+          await createUser(
+            user,
+            newUser.firstName,
+            newUser.lastName,
+            newUser.email
+          );
+          history.push(`/profile/${user}`);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    addNewUser();
+  }, [user, newUser, createUser, history]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // let newUser;
 
-    // setIsLoading(true);
-
-    // try {
-    //   newUser = await signup(user);
-
-    //   setUser({
-    //     firstName: '',
-    //     lastName: '',
-    //     email: '',
-    //     password: '',
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    // if (newUser) {
-    //   history.push(`/profile/${newUser.uid}`);
-    // } else {
-    //   setIsLoading(false);
-    // }
+    try {
+      await signup(newUser.email, newUser.password);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -57,9 +60,9 @@ export const Signup = () => {
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
                     placeholder='First Name'
-                    value={user.firstName}
+                    value={newUser.firstName}
                     onChange={(e) =>
-                      setUser({ ...user, firstName: e.target.value })
+                      setNewUser({ ...newUser, firstName: e.target.value })
                     }
                   />
                 </Form.Group>
@@ -67,9 +70,9 @@ export const Signup = () => {
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
                     placeholder='Last Name'
-                    value={user.lastName}
+                    value={newUser.lastName}
                     onChange={(e) =>
-                      setUser({ ...user, lastName: e.target.value })
+                      setNewUser({ ...newUser, lastName: e.target.value })
                     }
                   />
                 </Form.Group>
@@ -79,8 +82,10 @@ export const Signup = () => {
                 <Form.Control
                   type='email'
                   placeholder='Email'
-                  value={user.email}
-                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                  value={newUser.email}
+                  onChange={(e) =>
+                    setNewUser({ ...newUser, email: e.target.value })
+                  }
                 />
               </Form.Group>
               <Form.Group controlId='password'>
@@ -88,14 +93,14 @@ export const Signup = () => {
                 <Form.Control
                   type='password'
                   placeholder='Password'
-                  value={user.password}
+                  value={newUser.password}
                   onChange={(e) =>
-                    setUser({ ...user, password: e.target.value })
+                    setNewUser({ ...newUser, password: e.target.value })
                   }
                 />
               </Form.Group>
-              <Button variant='primary' type='submit' disabled={isLoading}>
-                {isLoading ? 'Loading…' : 'Signup'}
+              <Button variant='primary' type='submit'>
+                Signup
               </Button>
               <Button
                 as={Link}

@@ -3,16 +3,18 @@ import UserContext from '../context/user/userContext';
 
 export const Profile = () => {
   const userContext = useContext(UserContext);
-  const { user } = userContext;
+  const { userProfile } = userContext;
 
-  if (!user) {
-    return null;
+  if (!userProfile) {
+    return <p>Loading...</p>;
   }
 
   return (
     <div>
-      <p>Email: {user.email}</p>
-      <p>ID: {user.uid}</p>
+      <p>
+        Name: {userProfile.firstName} {userProfile.lastName}
+      </p>
+      <p>Email: {userProfile.email}</p>
     </div>
   );
 };

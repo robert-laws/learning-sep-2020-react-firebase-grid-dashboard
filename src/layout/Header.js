@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { logout } from '../firebase/auth';
 import { Link, NavLink } from 'react-router-dom';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
@@ -7,7 +6,7 @@ import UserContext from '../context/user/userContext';
 
 export const Header = () => {
   const userContext = useContext(UserContext);
-  const { user } = userContext;
+  const { user, userProfile, logout } = userContext;
 
   const history = useHistory();
 
@@ -26,7 +25,7 @@ export const Header = () => {
           Home
         </Nav.Link>
         {!!user && (
-          <Nav.Link as={NavLink} exact to={`/profile/${user.uid}`}>
+          <Nav.Link as={NavLink} exact to={`/profile/${user}`}>
             Profile
           </Nav.Link>
         )}
@@ -54,7 +53,9 @@ export const Header = () => {
       )}
       {!!user && (
         <Nav>
-          <h6 className='welcome-text'>Hello, {user.displayName}</h6>
+          {userProfile && (
+            <h6 className='welcome-text'>Hello, {userProfile.firstName}</h6>
+          )}
           <Nav.Link
             as={Button}
             onClick={logoutUser}
