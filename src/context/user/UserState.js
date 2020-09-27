@@ -57,12 +57,20 @@ const UserState = ({ children }) => {
   );
 
   const createUser = useCallback(async (uid, firstName, lastName, email) => {
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      phone: '',
+      address: '',
+      city: '',
+      state: '',
+      zip: '',
+      specialty: '',
+      ip: '',
+    };
     try {
-      await firebase
-        .firestore()
-        .collection('users')
-        .doc(uid)
-        .set({ firstName, lastName, email });
+      await firebase.firestore().collection('users').doc(uid).set(userData);
     } catch (error) {
       console.log(error);
     }
