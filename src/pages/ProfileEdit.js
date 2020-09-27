@@ -16,7 +16,7 @@ export const ProfileEdit = () => {
 
   useEffect(() => {
     getUserByUid(id);
-  }, [getUserByUid]);
+  }, [id, getUserByUid]);
 
   useEffect(() => {
     if (userProfile) {
