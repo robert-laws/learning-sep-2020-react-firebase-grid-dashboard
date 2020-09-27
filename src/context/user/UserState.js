@@ -37,10 +37,13 @@ const UserState = ({ children }) => {
 
   const signup = useCallback(
     async (email, password) => {
+      let uid = null;
       try {
         const { user } = await firebase
           .auth()
           .createUserWithEmailAndPassword(email, password);
+
+        uid = user.uid;
 
         const data = { user: user.uid, isLoading: false };
 
@@ -48,6 +51,7 @@ const UserState = ({ children }) => {
       } catch (error) {
         console.log(error);
       }
+      return uid;
     },
     [dispatch]
   );

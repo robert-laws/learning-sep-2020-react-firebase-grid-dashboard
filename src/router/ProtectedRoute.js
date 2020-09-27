@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-const ProtectedRoute = ({ isAuthed, isLoading, ...props }) => {
+export const ProtectedRoute = ({ isAuthed, isLoading, ...props }) => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -12,5 +12,3 @@ const ProtectedRoute = ({ isAuthed, isLoading, ...props }) => {
 
   return <Route {...props} />;
 };
-
-export default ProtectedRoute;

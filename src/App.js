@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import './App.scss';
 import './firebase/config';
-import ProtectedRoute from './router/ProtectedRoute';
+import { ProtectedRoute } from './router';
 import UserContext from './context/user/userContext';
 import { Header } from './layout';
 import { Home, Signup, Login, Profile } from './pages';
@@ -13,7 +13,6 @@ function App() {
   const { user, isLoading, getUserByUid, clearUser } = userContext;
 
   useEffect(() => {
-    console.log(user);
     if (user !== null) {
       getUserByUid(user);
     } else {
