@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Card, Spinner } from 'react-bootstrap';
 import UserContext from '../context/user/userContext';
@@ -119,6 +119,14 @@ export const ProfileEdit = () => {
                 </Form.Group>
                 <Button variant='primary' type='submit'>
                   Update Profile
+                </Button>
+                <Button
+                  as={Link}
+                  variant='secondary'
+                  to={`/profile/${id}`}
+                  style={{ marginLeft: '10px' }}
+                >
+                  Cancel
                 </Button>
               </Form>
             </Card.Body>
