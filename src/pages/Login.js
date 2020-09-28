@@ -28,6 +28,7 @@ export const Login = () => {
       reset();
     } catch (error) {
       console.log(error);
+    } finally {
       setLoading(false);
     }
   };

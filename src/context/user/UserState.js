@@ -82,7 +82,6 @@ const UserState = ({ children }) => {
   }, []);
 
   const updateUserProfile = async (uid, user) => {
-    console.log(user);
     try {
       await firebase.firestore().collection('users').doc(uid).update(user);
       dispatch({ type: UPDATE_USER_PROFILE, payload: user });

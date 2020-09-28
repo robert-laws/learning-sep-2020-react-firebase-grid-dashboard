@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Card, Spinner } from 'react-bootstrap';
 import UserContext from '../context/user/userContext';
@@ -9,10 +9,13 @@ export const ProfileEdit = () => {
   const { userProfile, updateUserProfile } = userContext;
 
   const [loading, setLoading] = useState(false);
+  const [updateComplete, setUpdateComplete] = useState(false);
 
   const { register, handleSubmit, reset, setValue } = useForm();
 
   const { id } = useParams();
+
+  const history = useHistory();
 
   useEffect(() => {
     if (userProfile) {
@@ -20,12 +23,18 @@ export const ProfileEdit = () => {
     }
   }, [userProfile, setValue]);
 
+  useEffect(() => {
+    if (updateComplete) {
+      history.push(`/profile/${id}`);
+    }
+  }, [updateComplete, history, id]);
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      console.log(data);
       await updateUserProfile(id, data);
       reset();
+      setUpdateComplete(true);
     } catch (error) {
       console.log(error);
     } finally {
