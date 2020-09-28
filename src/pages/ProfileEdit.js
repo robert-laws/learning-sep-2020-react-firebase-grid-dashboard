@@ -6,7 +6,7 @@ import UserContext from '../context/user/userContext';
 
 export const ProfileEdit = () => {
   const userContext = useContext(UserContext);
-  const { getUserByUid, userProfile } = userContext;
+  const { userProfile, updateUserProfile } = userContext;
 
   const [loading, setLoading] = useState(false);
 
@@ -15,23 +15,20 @@ export const ProfileEdit = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    getUserByUid(id);
-  }, [id, getUserByUid]);
-
-  useEffect(() => {
     if (userProfile) {
       Object.entries(userProfile).map((item) => setValue(item[0], item[1]));
     }
   }, [userProfile, setValue]);
 
   const onSubmit = async (data) => {
-    setLoading(true);
     try {
+      setLoading(true);
       console.log(data);
-      // await login(data);
+      await updateUserProfile(id, data);
       reset();
     } catch (error) {
       console.log(error);
+    } finally {
       setLoading(false);
     }
   };

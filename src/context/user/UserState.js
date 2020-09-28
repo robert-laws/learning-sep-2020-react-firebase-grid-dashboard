@@ -3,7 +3,12 @@ import UserContext from './userContext';
 import userReducer from './userReducer';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { UPDATE_USER_APP_STATE, GET_USER_BY_UID, CLEAR_USER } from '../types';
+import {
+  UPDATE_USER_APP_STATE,
+  GET_USER_BY_UID,
+  CLEAR_USER,
+  UPDATE_USER_PROFILE,
+} from '../types';
 
 const UserState = ({ children }) => {
   const initialState = {
@@ -76,6 +81,16 @@ const UserState = ({ children }) => {
     }
   }, []);
 
+  const updateUserProfile = async (uid, user) => {
+    console.log(user);
+    try {
+      await firebase.firestore().collection('users').doc(uid).update(user);
+      dispatch({ type: UPDATE_USER_PROFILE, payload: user });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const logout = () => {
     return firebase.auth().signOut();
   };
@@ -117,6 +132,7 @@ const UserState = ({ children }) => {
         createUser,
         login,
         getUserByUid,
+        updateUserProfile,
         logout,
         clearUser,
       }}

@@ -1,4 +1,9 @@
-import { UPDATE_USER_APP_STATE, GET_USER_BY_UID, CLEAR_USER } from '../types';
+import {
+  UPDATE_USER_APP_STATE,
+  GET_USER_BY_UID,
+  CLEAR_USER,
+  UPDATE_USER_PROFILE,
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {
@@ -9,6 +14,12 @@ export default (state, action) => {
       };
 
     case GET_USER_BY_UID:
+      return {
+        ...state,
+        userProfile: action.payload,
+      };
+
+    case UPDATE_USER_PROFILE:
       return {
         ...state,
         userProfile: action.payload,
