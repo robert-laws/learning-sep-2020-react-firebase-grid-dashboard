@@ -3,6 +3,7 @@ import { useParams, useHistory, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Card, Spinner } from 'react-bootstrap';
 import UserContext from '../context/user/userContext';
+import { ProfileImageForm } from '../components/ProfileImageForm';
 
 export const ProfileEdit = () => {
   const userContext = useContext(UserContext);
@@ -65,6 +66,7 @@ export const ProfileEdit = () => {
               <Card.Title>Edit Profile</Card.Title>
               <hr />
               <Form onSubmit={handleSubmit(onSubmit)}>
+                <ProfileImageForm id={id} />
                 <Form.Group controlId='firstName'>
                   <Form.Label>First Name</Form.Label>
                   <Form.Control

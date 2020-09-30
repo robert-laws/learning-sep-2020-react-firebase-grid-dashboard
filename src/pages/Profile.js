@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Redirect, useParams, Link } from 'react-router-dom';
 import UserContext from '../context/user/userContext';
 import { Button, Row, Col } from 'react-bootstrap';
+import { ProfileImage } from '../components';
 
 export const Profile = () => {
   const userContext = useContext(UserContext);
@@ -20,6 +21,7 @@ export const Profile = () => {
   return (
     <Row>
       <Col>
+        <ProfileImage />
         <p>
           Name: {userProfile.firstName} {userProfile.lastName}
         </p>
