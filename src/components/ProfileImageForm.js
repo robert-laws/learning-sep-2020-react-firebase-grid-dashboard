@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Image, Form, FormFile, Button } from 'react-bootstrap';
+import { Image, Form, FormFile } from 'react-bootstrap';
 
 export const ProfileImageForm = ({ id }) => {
   const fileUpload = useRef(null);
@@ -22,9 +22,6 @@ export const ProfileImageForm = ({ id }) => {
             ref={fileUpload}
             onChange={(e) => fileChange(e.target.files)}
           />
-          {/* <Button onClick={() => fileUpload.current.click()}>
-            Upload Your File
-          </Button> */}
         </FormFile>
       </Form.Group>
     </div>
