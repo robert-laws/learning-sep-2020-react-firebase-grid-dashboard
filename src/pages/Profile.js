@@ -6,7 +6,7 @@ import { ProfileImage } from '../components';
 
 export const Profile = () => {
   const userContext = useContext(UserContext);
-  const { user, userProfile } = userContext;
+  const { user, userProfile, userProfileImage } = userContext;
 
   const { id } = useParams();
 
@@ -21,7 +21,7 @@ export const Profile = () => {
   return (
     <Row>
       <Col>
-        <ProfileImage />
+        <ProfileImage profileImageUrl={userProfileImage} />
         <p>
           Name: {userProfile.firstName} {userProfile.lastName}
         </p>

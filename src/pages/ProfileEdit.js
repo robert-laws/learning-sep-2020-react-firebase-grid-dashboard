@@ -7,7 +7,7 @@ import { ProfileImageForm } from '../components/ProfileImageForm';
 
 export const ProfileEdit = () => {
   const userContext = useContext(UserContext);
-  const { userProfile, updateUserProfile } = userContext;
+  const { userProfile, userProfileImage, updateUserProfile } = userContext;
 
   const [loading, setLoading] = useState(false);
   const [updateComplete, setUpdateComplete] = useState(false);
@@ -66,7 +66,7 @@ export const ProfileEdit = () => {
               <Card.Title>Edit Profile</Card.Title>
               <hr />
               <Form onSubmit={handleSubmit(onSubmit)}>
-                <ProfileImageForm id={id} />
+                <ProfileImageForm id={id} profileImageUrl={userProfileImage} />
                 <Form.Group controlId='firstName'>
                   <Form.Label>First Name</Form.Label>
                   <Form.Control

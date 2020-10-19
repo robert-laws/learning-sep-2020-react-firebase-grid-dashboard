@@ -3,6 +3,7 @@ import {
   GET_USER_BY_UID,
   CLEAR_USER,
   UPDATE_USER_PROFILE,
+  UPDATE_USER_PROFILE_IMAGE,
 } from '../types';
 
 export default (state, action) => {
@@ -25,10 +26,17 @@ export default (state, action) => {
         userProfile: action.payload,
       };
 
+    case UPDATE_USER_PROFILE_IMAGE:
+      return {
+        ...state,
+        userProfileImage: action.payload,
+      };
+
     case CLEAR_USER:
       return {
         ...state,
         userProfile: null,
+        userProfileImage: null,
       };
 
     default:

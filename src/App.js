@@ -10,15 +10,22 @@ import { Container } from 'react-bootstrap';
 
 function App() {
   const userContext = useContext(UserContext);
-  const { user, isLoading, getUserByUid, clearUser } = userContext;
+  const {
+    user,
+    isLoading,
+    getUserByUid,
+    getUserProfileByUid,
+    clearUser,
+  } = userContext;
 
   useEffect(() => {
     if (user !== null) {
       getUserByUid(user);
+      getUserProfileByUid(user);
     } else {
       clearUser();
     }
-  }, [user, getUserByUid, clearUser]);
+  }, [user, getUserByUid, getUserProfileByUid, clearUser]);
 
   return (
     <Router>

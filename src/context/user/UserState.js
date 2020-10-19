@@ -3,17 +3,20 @@ import UserContext from './userContext';
 import userReducer from './userReducer';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import { firestore, storage } from '../../firebase/config';
 import {
   UPDATE_USER_APP_STATE,
   GET_USER_BY_UID,
   CLEAR_USER,
   UPDATE_USER_PROFILE,
+  UPDATE_USER_PROFILE_IMAGE,
 } from '../types';
 
 const UserState = ({ children }) => {
   const initialState = {
     user: null,
     userProfile: null,
+    userProfileImage: null,
     isLoading: true,
   };
 
@@ -83,7 +86,7 @@ const UserState = ({ children }) => {
 
   const updateUserProfile = async (uid, user) => {
     try {
-      await firebase.firestore().collection('users').doc(uid).update(user);
+      await firestore.collection('users').doc(uid).update(user);
       dispatch({ type: UPDATE_USER_PROFILE, payload: user });
     } catch (error) {
       console.log(error);
@@ -96,6 +99,22 @@ const UserState = ({ children }) => {
 
   const login = async ({ email, password }) => {
     await firebase.auth().signInWithEmailAndPassword(email, password);
+  };
+
+  const uploadUserImage = async (uid, file) => {
+    const filePath = `users/${uid}/profile-image`;
+    const fileRef = storage.ref().child(filePath);
+
+    try {
+      const uploadSnapshot = await fileRef.put(file);
+      const downloadImageUrl = await uploadSnapshot.ref.getDownloadURL();
+
+      const profileImage = { url: downloadImageUrl };
+
+      dispatch({ type: UPDATE_USER_PROFILE_IMAGE, payload: profileImage });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getUserByUid = useCallback(
@@ -117,6 +136,25 @@ const UserState = ({ children }) => {
     [dispatch]
   );
 
+  const getUserProfileByUid = useCallback(
+    async (uid) => {
+      try {
+        const filePath = `users/${uid}/profile-image`;
+        const downloadImageUrl = await storage
+          .ref()
+          .child(filePath)
+          .getDownloadURL();
+
+        const profileImage = { url: downloadImageUrl };
+
+        dispatch({ type: UPDATE_USER_PROFILE_IMAGE, payload: profileImage });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [dispatch]
+  );
+
   const clearUser = useCallback(() => {
     dispatch({ type: CLEAR_USER });
   }, []);
@@ -126,14 +164,17 @@ const UserState = ({ children }) => {
       value={{
         user: state.user,
         userProfile: state.userProfile,
+        userProfileImage: state.userProfileImage,
         isLoading: state.isLoading,
         signup,
         createUser,
         login,
         getUserByUid,
+        getUserProfileByUid,
         updateUserProfile,
         logout,
         clearUser,
+        uploadUserImage,
       }}
     >
       {children}
