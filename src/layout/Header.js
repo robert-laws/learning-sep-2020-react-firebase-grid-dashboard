@@ -6,7 +6,7 @@ import UserContext from '../context/user/userContext';
 
 export const Header = () => {
   const userContext = useContext(UserContext);
-  const { user, userProfile, logout } = userContext;
+  const { user, isAdmin, userProfile, logout } = userContext;
 
   const history = useHistory();
 
@@ -27,6 +27,11 @@ export const Header = () => {
         {!!user && (
           <Nav.Link as={NavLink} exact to={`/profile/${user}`}>
             Profile
+          </Nav.Link>
+        )}
+        {isAdmin && (
+          <Nav.Link as={NavLink} exact to={'/users'}>
+            All Users
           </Nav.Link>
         )}
       </Nav>

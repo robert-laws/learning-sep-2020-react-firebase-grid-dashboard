@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import './App.scss';
 import './firebase/config';
-import { ProtectedRoute } from './router';
+import { ProtectedRoute, AdminRoute } from './router';
 import UserContext from './context/user/userContext';
 import { Header } from './layout';
-import { Home, Signup, Login, Profile, ProfileEdit } from './pages';
+import { Home, Signup, Login, Profile, ProfileEdit, Users } from './pages';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 
@@ -12,6 +12,7 @@ function App() {
   const userContext = useContext(UserContext);
   const {
     user,
+    isAdmin,
     isLoading,
     getUserByUid,
     getUserProfileByUid,
@@ -51,6 +52,14 @@ function App() {
           >
             <ProfileEdit />
           </ProtectedRoute>
+          <AdminRoute
+            isAuthed={!!user}
+            isAdmin={isAdmin}
+            isLoading={isLoading}
+            path='/users'
+          >
+            <Users />
+          </AdminRoute>
         </Switch>
       </Container>
     </Router>

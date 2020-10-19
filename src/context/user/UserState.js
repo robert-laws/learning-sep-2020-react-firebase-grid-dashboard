@@ -15,6 +15,7 @@ import {
 const UserState = ({ children }) => {
   const initialState = {
     user: null,
+    isAdmin: false,
     userProfile: null,
     userProfileImage: null,
     isLoading: true,
@@ -23,8 +24,8 @@ const UserState = ({ children }) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
 
   useEffect(() => {
-    const unsubscribe = addAuthListener((user) => {
-      const data = { user, isLoading: false };
+    const unsubscribe = addAuthListener((user, adminUser) => {
+      const data = { user, isLoading: false, isAdmin: adminUser };
       dispatch({ type: UPDATE_USER_APP_STATE, payload: data });
     });
 
@@ -32,9 +33,11 @@ const UserState = ({ children }) => {
   }, []);
 
   const addAuthListener = (callback) => {
-    const onChange = (user) => {
+    const onChange = async (user) => {
       if (user) {
-        callback(user.uid);
+        const token = await user.getIdTokenResult();
+        let isAdmin = token.claims.admin ? true : false;
+        callback(user.uid, isAdmin);
       } else {
         callback(null);
       }
@@ -163,6 +166,7 @@ const UserState = ({ children }) => {
     <UserContext.Provider
       value={{
         user: state.user,
+        isAdmin: state.isAdmin,
         userProfile: state.userProfile,
         userProfileImage: state.userProfileImage,
         isLoading: state.isLoading,

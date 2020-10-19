@@ -37,6 +37,7 @@ export default (state, action) => {
         ...state,
         userProfile: null,
         userProfileImage: null,
+        isAdmin: false,
       };
 
     default:

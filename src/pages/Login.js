@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 export const Login = () => {
   const userContext = useContext(UserContext);
-  const { user, userProfile, login } = userContext;
+  const { user, userProfile, isAdmin, login } = userContext;
 
   const [loading, setLoading] = useState(false);
 
@@ -17,9 +17,13 @@ export const Login = () => {
 
   useEffect(() => {
     if (userProfile) {
-      history.push(`/profile/${user}`);
+      if (isAdmin) {
+        history.push('/users');
+      } else {
+        history.push(`/profile/${user}`);
+      }
     }
-  }, [user, userProfile, history]);
+  }, [user, isAdmin, userProfile, history]);
 
   const onSubmit = async (data) => {
     setLoading(true);
